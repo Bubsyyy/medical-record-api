@@ -15,6 +15,8 @@ Patient visits to doctors, with optional sick leave issuance.
 Reports and statistics for better healthcare management.
 
 ✅ Features
+
+
 🔁 CRUD Operations
 Doctors
 
@@ -27,6 +29,7 @@ Medical Visits
 Sick Leave Records
 
 📊 Reports & Statistics
+
 Patients with a specific diagnosis
 
 Most frequently diagnosed illnesses
@@ -46,6 +49,7 @@ Month with the highest number of sick leave records
 Doctors who issued the most sick leaves
 
 🔐 Roles & Permissions
+
 Patient: View personal medical history
 
 Doctor: View all data; modify records of own patients only
