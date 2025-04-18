@@ -3,6 +3,8 @@ package org.example.medical_record.generalPractitioner;
 import org.example.medical_record.doctor.Doctor;
 import org.example.medical_record.doctor.DoctorRepository;
 import org.example.medical_record.doctor.DoctorService;
+import org.example.medical_record.event.UserRegisteredEventProducer;
+import org.example.medical_record.event.payload.UserRegisteredEvent;
 import org.example.medical_record.exception.DoctorNotFoundException;
 import org.example.medical_record.patient.Patient;
 import org.example.medical_record.speciality.Speciality;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -23,16 +26,18 @@ public class GeneralPractitionerServiceImpl implements GeneralPractitionerServic
     private final GeneralPractitionerRepository generalPractitionerRepository;
     private final PasswordEncoder passwordEncoder;
     private final SpecialityService specialityService;
+    private final UserRegisteredEventProducer userRegisteredEventProducer;
 
 
 
     public GeneralPractitionerServiceImpl(GeneralPractitionerRepository generalPractitionerRepository
             , PasswordEncoder passwordEncoder
-            , SpecialityService specialityService) {
+            , SpecialityService specialityService, UserRegisteredEventProducer userRegisteredEventProducer) {
         this.generalPractitionerRepository = generalPractitionerRepository;
         this.passwordEncoder = passwordEncoder;
         this.specialityService = specialityService;
 
+        this.userRegisteredEventProducer = userRegisteredEventProducer;
     }
 
 
@@ -48,6 +53,12 @@ public class GeneralPractitionerServiceImpl implements GeneralPractitionerServic
         generalPractitioner.setSpecialities(specialities);
 
         generalPractitionerRepository.save(generalPractitioner);
+
+        UserRegisteredEvent event = UserRegisteredEvent.builder()
+                .userId(generalPractitioner.getId())
+                .createdOn(LocalDateTime.now())
+                .build();
+        userRegisteredEventProducer.sendEvent(event);
 
 
 

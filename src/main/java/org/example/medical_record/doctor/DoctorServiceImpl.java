@@ -1,5 +1,7 @@
 package org.example.medical_record.doctor;
 
+import org.example.medical_record.event.UserRegisteredEventProducer;
+import org.example.medical_record.event.payload.UserRegisteredEvent;
 import org.example.medical_record.exception.DoctorNotFoundException;
 import org.example.medical_record.medicalVisit.MedicalVisitService;
 import org.example.medical_record.speciality.Speciality;
@@ -14,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +26,15 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final SpecialityService specialityService;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRegisteredEventProducer userRegisteredEventProducer;
 
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, SpecialityService specialityService, PasswordEncoder passwordEncoder) {
+    public DoctorServiceImpl(DoctorRepository doctorRepository, SpecialityService specialityService, PasswordEncoder passwordEncoder, UserRegisteredEventProducer userRegisteredEventProducer) {
         this.doctorRepository = doctorRepository;
         this.specialityService = specialityService;
         this.passwordEncoder = passwordEncoder;
+        this.userRegisteredEventProducer = userRegisteredEventProducer;
     }
 
     @Override
@@ -72,6 +77,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 
         doctorRepository.save(doctor);
+
+        UserRegisteredEvent event = UserRegisteredEvent.builder()
+                .userId(doctor.getId())
+                .createdOn(LocalDateTime.now())
+                .build();
+        userRegisteredEventProducer.sendEvent(event);
 
 
         return DoctorMapper.mapDoctorToExpose(doctor);
