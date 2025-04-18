@@ -1,6 +1,8 @@
 package org.example.medical_record.patient;
 
 
+import org.example.medical_record.event.UserRegisteredEventProducer;
+import org.example.medical_record.event.payload.UserRegisteredEvent;
 import org.example.medical_record.exception.PatientNotFoundException;
 import org.example.medical_record.generalPractitioner.GeneralPractitioner;
 import org.example.medical_record.generalPractitioner.GeneralPractitionerService;
@@ -13,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +25,16 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final PasswordEncoder passwordEncoder;
     private final GeneralPractitionerService generalPractitionerService;
+    private final UserRegisteredEventProducer userRegisteredEventProducer;
 
     @Autowired
     public PatientServiceImpl(PatientRepository patientRepository,
                               PasswordEncoder passwordEncoder,
-                              GeneralPractitionerService generalPractitionerService) {
+                              GeneralPractitionerService generalPractitionerService, UserRegisteredEventProducer userRegisteredEventProducer) {
         this.patientRepository = patientRepository;
         this.passwordEncoder = passwordEncoder;
         this.generalPractitionerService = generalPractitionerService;
+        this.userRegisteredEventProducer = userRegisteredEventProducer;
     }
 
     @Override
@@ -67,6 +72,12 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = PatientMapper.mapDtotoPatient(request);
         patient.setPassword(passwordEncoder.encode(request.getPassword()));
         patientRepository.save(patient);
+
+        UserRegisteredEvent event = UserRegisteredEvent.builder()
+                .userId(patient.getId())
+                .createdOn(LocalDateTime.now())
+                .build();
+        userRegisteredEventProducer.sendEvent(event);
 
 
 
