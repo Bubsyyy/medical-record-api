@@ -38,7 +38,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<PatientExpose> getAllPatients() {
 
         List<Patient> allPatients = patientRepository.findAll();
@@ -50,7 +49,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public PatientExpose getPatient(Long id) {
 
         Optional<Patient> patientOptional = patientRepository.findById(id);
@@ -66,7 +64,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public PatientExpose createNewPatient(PatientRequest request) {
 
         Patient patient = PatientMapper.mapDtotoPatient(request);
@@ -85,7 +82,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public PatientExpose updatePatientById(Long id, PatientEditRequest request) {
 
         Optional<Patient> patientOptional = patientRepository.findById(id);
@@ -106,7 +102,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Patient getPatientByNames(String firstName, String lastName) {
 
 
@@ -115,14 +110,12 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
     public Patient getPatientByUsername(String username) {
 
         return patientRepository.findPatientByUsername(username);
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<PatientExpose> getAllPatientsWithDiagnoseByDiagnoseId(Long id) {
 
         List<Patient> patientsByDiagnoseId = patientRepository.findPatientsByDiagnoseId(id);
@@ -131,7 +124,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<PatientExpose> getAllPatientsWithSpecificGeneralPractitioner(Long generalPractitionerId) {
 
         GeneralPractitioner generalPractitioner = this.generalPractitionerService.getGeneralPractitionerById(generalPractitionerId);
@@ -142,7 +134,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Patient getPatientById(Long patientId) {
 
         Optional<Patient> patientOptional = patientRepository.findById(patientId);

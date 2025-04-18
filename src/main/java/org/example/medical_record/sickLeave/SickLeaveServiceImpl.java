@@ -25,7 +25,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
 
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public SickLeave initializeSickLeave(SickLeaveRequest sickLeaveRequest) {
 
         LocalDate startDate = sickLeaveRequest.getStartDate();
@@ -46,7 +45,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<SickLeaveExpose> getAllSickLeaves() {
 
         List<SickLeave> sickLeaves = sickLeaveRepository.findAll();
@@ -56,7 +54,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public SickLeaveExpose getSickLeave(Long id) {
         Optional<SickLeave> sickLeaveOptional = sickLeaveRepository.findById(id);
         if (sickLeaveOptional.isEmpty()) {
@@ -69,7 +66,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SickLeaveExpose deleteSickLeave(Long id) {
 
 
@@ -86,7 +82,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public MonthWithSickLeaves getMonthWithMostSickLeaveCount() {
 
         Object[] monthWithMostSickLeaves = sickLeaveRepository.findMonthWithMostSickLeaves();
@@ -100,7 +95,6 @@ public class SickLeaveServiceImpl implements SickLeaveService{
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SickLeaveExpose updateSickLeave(Long id, SickLeaveEditRequest request) {
 
         Optional<SickLeave> sickLeaveOptional = sickLeaveRepository.findById(id);

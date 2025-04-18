@@ -33,7 +33,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<DoctorExpose> getAllDoctors() {
 
         List<Doctor> doctors = doctorRepository.findAll();
@@ -42,7 +41,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public DoctorExpose getDoctor(Long id) {
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(id);
@@ -57,7 +55,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DoctorExpose createNewDoctor(DoctorRequest request) {
 
 
@@ -81,7 +78,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DoctorExpose updateDoctorById(Long id, DoctorEditRequest request) {
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(id);
@@ -97,7 +93,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DoctorExpose deleteDoctorById(Long id) {
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(id);
@@ -113,7 +108,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Doctor getDoctorByNames(String firstName, String lastName) {
 
 
@@ -122,7 +116,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Doctor getDoctorById(Long doctorId) {
 
         Optional<Doctor> doctorOptional = doctorRepository.findById(doctorId);
@@ -134,7 +127,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<DoctorVisitsCount> getCountOfAllDoctorVisits() {
 
         List<Object[]> doctorVisits = doctorRepository.countVisitsPerDoctor();

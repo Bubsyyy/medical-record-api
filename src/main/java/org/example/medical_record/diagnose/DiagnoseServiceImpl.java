@@ -23,7 +23,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Diagnose getDiagnoseByName(String diagnoseName) {
 
         Optional<Diagnose> diagnoseOptional = diagnoseRepository.findByName(diagnoseName);
@@ -42,7 +41,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<DiagnoseExpose> getAllDiagnoses() {
 
         List<Diagnose> allDiagnoses = diagnoseRepository.findAll();
@@ -56,7 +54,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public DiagnoseExpose getDiagnosesById(Long id) {
 
         Optional<Diagnose> diagnoseOptional = diagnoseRepository.findById(id);
@@ -71,7 +68,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DiagnoseExpose createNewDiagnose(DiagnoseCreationRequest request) {
 
         Diagnose diagnose = Diagnose.builder()
@@ -86,7 +82,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public DiagnoseExpose deleteDiagnoseById(Long id) {
 
         Optional<Diagnose> diagnoseOptional = diagnoseRepository.findById(id);
@@ -104,7 +99,6 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public DiagnoseExpose getLastDiagnose() {
 
         Diagnose latestDiagnose = diagnoseRepository.findLatestDiagnose();

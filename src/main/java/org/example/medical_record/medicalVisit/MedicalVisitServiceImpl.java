@@ -75,7 +75,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<MedicalVisitExpose> getAllVisits() {
 
         List<MedicalVisit> allVisits = medicalVisitRepository.findAll();
@@ -85,7 +84,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public MedicalVisitExpose getVisitById(Long id) {
 
         Optional<MedicalVisit> visitOptional = medicalVisitRepository.findById(id);
@@ -100,7 +98,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
 
     @Transactional
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public MedicalVisitExpose updateMedicalVisit(Long id, MedicalVisitEditRequest request) {
 
         Optional<MedicalVisit> visitOptional = medicalVisitRepository.findById(id);
@@ -131,7 +128,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
         SickLeave sickLeave = sickleaveService.initializeSickLeave(sickLeaveRequest);
         visit.setSickLeave(sickLeave);
 
-        //TODO diagnoseService
         String diagnoseName = request.getNameOfTheDiagnose();
         Diagnose diagnose = diagnoseService.getDiagnoseByName(diagnoseName);
 
@@ -148,7 +144,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public MedicalVisitExpose deleteVisitById(Long id) {
 
         Optional<MedicalVisit> visitOptional = medicalVisitRepository.findById(id);
@@ -165,7 +160,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PATIENT')")
     public List<MedicalVisitExpose> getHistoryOfPatientByHisUsername(String username) {
         Patient patient = patientService.getPatientByUsername(username);
 
@@ -175,7 +169,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<MedicalVisitExpose> getVisitHistoryForPeriod(VisitHistoryPeriodRequest request) {
 
         LocalDate start = request.getStartDate();
@@ -187,7 +180,6 @@ public class MedicalVisitServiceImpl implements MedicalVisitService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<DoctorsSickLeaves> getDoctorsWithSickLeaves() {
 
         List<Object[]> doctorsWithMostSickLeaves = medicalVisitRepository.findDoctorsWithMostSickLeaves();

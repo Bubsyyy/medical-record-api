@@ -39,7 +39,6 @@ public class GeneralPractitionerServiceImpl implements GeneralPractitionerServic
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public GpExpose createNewGp(GeneralPractitionerRequest request) {
 
         GeneralPractitioner generalPractitioner = GeneralPractitionerMapper.mapDtoToGeneralPractitioner(request);
@@ -63,7 +62,6 @@ public class GeneralPractitionerServiceImpl implements GeneralPractitionerServic
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public GeneralPractitioner getGeneralPractitionerById(Long generalPractitionerId) {
 
         Optional<GeneralPractitioner> generalPractitionerOptional = generalPractitionerRepository.findById(generalPractitionerId);

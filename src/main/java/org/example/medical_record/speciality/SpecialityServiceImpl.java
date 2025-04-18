@@ -21,7 +21,6 @@ public class SpecialityServiceImpl implements SpecialityService {
 
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public List<SpecialityExpose> getAllSpecialities() {
 
         return specialityRepository.findAll()
@@ -32,7 +31,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public SpecialityExpose getSpeciality(Long id) {
 
         Optional<Speciality> specialityOptional = specialityRepository.findById(id);
@@ -48,7 +46,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SpecialityExpose createNewSpeciality(SpecialityRequest request) {
 
         Speciality speciality = Speciality.builder().name(request.getName()).build();
@@ -60,7 +57,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SpecialityExpose updateSpeciality(Long id, SpecialityRequest request) {
 
         Optional<Speciality> specialityOptional = specialityRepository.findById(id);
@@ -77,7 +73,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SpecialityExpose deleteSpeciality(Long id) {
 
         Optional<Speciality> specialityOptional = specialityRepository.findById(id);
@@ -93,7 +88,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Speciality getSpecialityByName(String specialityName) {
 
         Speciality speciality = specialityRepository.findByName(specialityName);
@@ -102,7 +96,6 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     public Set<Speciality> getSpecialitiesByTheirNames(List<String> specialityNames) {
 
         List<Speciality> specialities = specialityRepository.findByNameIn(specialityNames);
